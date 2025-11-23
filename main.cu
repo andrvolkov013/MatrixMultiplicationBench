@@ -13,12 +13,12 @@ int main() {
 }
 
 void printBenchmarkResults(const std::vector<std::vector<float>>& results) {
-    // Настройки ширины колонок
+    // настройки ширины колонок
     const int w_n = 8;
-    const int w_time = 12;    // Достаточно для "12345.789"
+    const int w_time = 12;
     const int w_speedup = 10;
 
-    // Вспомогательная функция для рисования горизонтальной линии
+    // вспомогательная функция для рисования горизонтальной линии
     auto print_line = [&](char corner = '+', char horizontal = '-') {
         std::cout << corner << std::string(w_n + 2, horizontal)        << corner
                   << std::string(w_time + 2, horizontal) << corner     // H2D
@@ -45,7 +45,6 @@ void printBenchmarkResults(const std::vector<std::vector<float>>& results) {
               << " |" << std::endl;
     print_line();
 
-    // 3. Вывод данных
     for (const auto& row : results) {
         int n = static_cast<int>(row[0]);
         float t_kernel = row[1];
@@ -55,7 +54,7 @@ void printBenchmarkResults(const std::vector<std::vector<float>>& results) {
         float t_cpu = row[5];
         float t_p_cpu = row[6];
 
-        // Формируем строку ускорения
+        // формируем строку ускорения
         std::string speedup_str;
         if (t_cpu > 0 && t_gpu > 0) {
             std::stringstream ss;
@@ -68,7 +67,7 @@ void printBenchmarkResults(const std::vector<std::vector<float>>& results) {
         }
 
         std::cout << "| " << std::setw(w_n) << n
-                  << std::fixed << std::setprecision(3) // Применяем формат ко всем float
+                  << std::fixed << std::setprecision(3) // применяем формат ко всем float
                   << " | " << std::setw(w_time) << t_h2d
                   << " | " << std::setw(w_time) << t_kernel
                   << " | " << std::setw(w_time) << t_d2h

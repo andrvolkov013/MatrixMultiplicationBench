@@ -32,7 +32,7 @@ std::vector<std::vector<float>> matrix_multiplication_bench() {
         h_matrix_2 = new float[num_el];
         h_matrix_res = new float[num_el];
         h_matrix_res_CPU = new float[num_el];
-        //генерируем матрицы
+        // генерируем матрицы
         generate_matrix(h_matrix_1, num_el);
         generate_matrix(h_matrix_2, num_el);
         // создаем объекты событий CUDA
@@ -57,12 +57,12 @@ std::vector<std::vector<float>> matrix_multiplication_bench() {
         blocksPerGrid.x = (n + threadsPerBlock.x - 1) / threadsPerBlock.x;
         blocksPerGrid.y = (n + threadsPerBlock.y - 1) / threadsPerBlock.y;
         // работа ядра
-        cudaEventRecord(start_kernel); // Записываем начальное событие в поток команд для GPU
+        cudaEventRecord(start_kernel); // записываем начальное событие
         multiply_matrix<<<blocksPerGrid, threadsPerBlock>>>(d_matrix_1, d_matrix_2, d_matrix_res, n);
-        cudaEventRecord(stop_kernel); // Записываем конечное событие в поток команд для GPU
-        cudaEventSynchronize(stop_kernel); // CPU "ждет", пока закончит GPU
+        cudaEventRecord(stop_kernel); // записываем конечное событие
+        cudaEventSynchronize(stop_kernel);
         float time_kernel = 0;
-        cudaEventElapsedTime(&time_kernel, start_kernel, stop_kernel); // Считаем время в миллисекундах
+        cudaEventElapsedTime(&time_kernel, start_kernel, stop_kernel); // считаем время в миллисекундах
         // копирование результата в CPU
         cudaEventRecord(start_d2h);
         cudaMemcpy(h_matrix_res, d_matrix_res, size, cudaMemcpyDeviceToHost);
@@ -70,18 +70,18 @@ std::vector<std::vector<float>> matrix_multiplication_bench() {
         cudaEventSynchronize(stop_d2h);
         float time_d2h = 0;
         cudaEventElapsedTime(&time_d2h, start_d2h, stop_d2h);
-        // Удаляем события
+        // удаляем события
         cudaEventDestroy(start_kernel); cudaEventDestroy(stop_kernel);
         cudaEventDestroy(start_h2d);    cudaEventDestroy(stop_h2d);
         cudaEventDestroy(start_d2h);    cudaEventDestroy(stop_d2h);
 
-        //Вычисление на однопоточном CPU
+        // вычисление на однопоточном CPU
         auto start_time = std::chrono::high_resolution_clock::now(); // стартовая отсечка времени
         multiply_matrix_on_CPU(h_matrix_1, h_matrix_2, h_matrix_res_CPU, n);
         auto end_time = std::chrono::high_resolution_clock::now(); // Конечная отсечка времени
         auto time_CPU = end_time - start_time;
         float time_CPU_ms = std::chrono::duration<float, std::milli>(time_CPU).count(); // перевод в миллисекунды
-        //Вычисление на параллельном CPU
+        // вычисление на параллельном CPU
         auto start_time_p = std::chrono::high_resolution_clock::now(); // стартовая отсечка времени
         multiply_matrix_on_parallel_CPU(h_matrix_1, h_matrix_2, h_matrix_res_CPU, n);
         auto end_time_p = std::chrono::high_resolution_clock::now(); // Конечная отсечка времени
