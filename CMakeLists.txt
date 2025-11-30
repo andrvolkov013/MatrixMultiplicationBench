@@ -1,12 +1,16 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.20)
 project(MatrixMultiplicationBench LANGUAGES CXX CUDA)
 
 set(CMAKE_CUDA_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(MatrixMultiplicationBench main.cu gpu_functions.cu
         matrix_multiplication_bench.cu matrix_lib.cpp)
 
-set(CMAKE_CUDA_ARCHITECTURES 86)
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+    set(CMAKE_CUDA_ARCHITECTURES "native")
+endif()
 
 set_target_properties(MatrixMultiplicationBench PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
