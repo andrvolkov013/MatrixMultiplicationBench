@@ -10,6 +10,8 @@ void printBenchmarkResults(const std::vector<std::vector<float>>& results);
 int main() {
     std::vector<std::vector<float>> matrix_perm_res = matrix_multiplication_bench();
     printBenchmarkResults(matrix_perm_res);
+    system("pause");
+    return 0;
 }
 
 void printBenchmarkResults(const std::vector<std::vector<float>>& results) {
