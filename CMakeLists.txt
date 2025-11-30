@@ -11,7 +11,7 @@ set(CMAKE_CUDA_ARCHITECTURES 86)
 set_target_properties(MatrixMultiplicationBench PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
 
-find_package(OpenMP REQUIRED)
+find_package(OpenMP REQUIRED COMPONENTS CXX)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries(MatrixMultiplicationBench PUBLIC OpenMP::OpenMP_CXX)
