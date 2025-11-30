@@ -4,8 +4,8 @@ It demonstrates the performance differences between CPU (Single-threaded), CPU (
 ## How to build and run?
 ### Requirements
 * NVIDIA GPU with CUDA support
-* NVCC compiler (CUDA toolkit)
-* C++ compiler
+* CUDA Toolkit (NVCC)
+* C++ compiler with OpenMP support
 * CMake (version 3.20 or higher)
 ### Build instructions
 In this project CMake is used for automatic setup for your GPU.
@@ -25,9 +25,17 @@ For Windows:
 cmake ..
 cmake --build . --config Release
 ```
-For Linux/MacOS:
+For Linux:
 ```
 cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build .
 ```
 #### 4. Run benchmark
+For Windows:
+```
+.\Release\MatrixMultiplicationBench.exe
+```
+For Linux:
+```
+./MatrixMultiplicationBench
+```
